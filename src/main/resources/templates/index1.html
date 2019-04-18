@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link href="xterm.css" rel="stylesheet"/>
+    <link href="my.css" rel="stylesheet"/>
+    <link href="console.css" rel="stylesheet"/>
+    <link href="layui/css/layui.css" rel="stylesheet"/>
+    <script src="xterm.js" type="text/javascript"></script>
+    <script src="web-console.js" type="text/javascript"></script>
+    <script src="jquery-3.3.1.slim.min.js" type="text/javascript"></script>
+    <script src="bootstrap-4.2.1.min.js" type="text/javascript"></script>
+    <script src="layui/layui.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        window.addEventListener('resize', function () {
+            var terminalSize = getTerminalSize();
+            ws.send(JSON.stringify({action: 'resize', cols: terminalSize.cols, rows: terminalSize.rows}));
+            xterm.resize(terminalSize.cols, terminalSize.rows);
+        });
+    </script>
+</head>
+<body>
+
+<blockquote class="layui-elem-quote layui-text">
+    可以对线上JAVA项目做诊断 <a href="https://alibaba.github.io/arthas/commands.html">官方文档</a> author ：小富
+</blockquote>
+
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+    <legend>JAVA诊断工具</legend>
+</fieldset>
+
+<div class="layui-form-item">
+
+    <div class="layui-inline">
+        <label class="layui-form-label">ip:</label>
+        <div class="layui-input-inline">
+            <input value="59.110.218.9" v-model="ip" type="text" name="ip" id="ip" required lay-verify="required"
+                   placeholder="请输入ip" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-inline">
+        <label class="layui-form-label">端口:</label>
+        <div class="layui-input-inline">
+            <input value="8563" v-model="port" type="text" name="port" id="port" required lay-verify="required"
+                   placeholder="请输入端口号" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <button class="layui-btn" onclick="startConnect()">Connect</button>
+    <button class="layui-btn" onclick="disconnect()">Disconnect</button>
+    <button class="layui-btn" onclick="sendCommondtext()">执行命令</button>
+    <button class="layui-btn" onclick="clearConmmond();">清空</button>
+    <hr>
+    <div class="layui-inline">
+        <label class="layui-form-label">命令卡:</label>
+        <div class="layui-input-inline" style="width: 900px;">
+            <div class="layui-collapse" lay-accordion="">
+                <!-- dashboard 面板 -->
+                <div class="layui-colla-item">
+                    <h2 class="layui-colla-title" style="background-color: #e69e41;color: #f9f8f3">dashboard(数据面板)</h2>
+                    <div class="layui-colla-content">
+
+                        <form class="layui-form" action="" id="dashboardFrom" lay-filter="dashboardFrom">
+                            <div class="layui-form-item">
+                                <div class="layui-input-block">
+                                    <input type="checkbox" value="dashboard" name="dashboardCheckBox"
+                                           lay-filter="dashboardCheckBox"
+                                           title="系统数据面板">
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+                <!-- dashboard 面板 -->
+
+                <!-- JVM 面板 -->
+                <div class="layui-colla-item">
+                    <h2 class="layui-colla-title" style="background-color: #e69e41;color: #f9f8f3">JVM(数据面板)</h2>
+                    <div class="layui-colla-content">
+
+                        <form class="layui-form" action="" id="jvmFrom" lay-filter="jvmFrom">
+                            <div class="layui-form-item">
+                                <div class="layui-input-block">
+                                    <input type="checkbox" value="jvm" name="jvmCheckBox"
+                                           lay-filter="jvmCheckBox"
+                                           title="JVM内存数据">
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+                <!-- JVM 面板 -->
+
+                <!-- Thread 面板 -->
+                <div class="layui-colla-item">
+                    <h2 class="layui-colla-title" style="background-color: #e69e41;color: #f9f8f3">Thread(线程)</h2>
+                    <div class="layui-colla-content">
+
+                        <form class="layui-form" action="" id="threadFrom" lay-filter="threadFrom">
+                            <div class="layui-form-item">
+                                <div class="layui-input-block">
+                                    <input type="checkbox" value="all" name="threadCheckBox" lay-filter="threadCheckBox"
+                                           title="所有线程">
+                                    <input type="checkbox" value="block" name="threadCheckBox"
+                                           lay-filter="threadCheckBox" title="阻塞的线程">
+                                    <input type="checkbox" value="ID" name="threadCheckBox" lay-filter="threadCheckBox"
+                                           title="指定线程ID">
+                                    <input type="checkbox" value="nID" name="threadCheckBox" lay-filter="threadCheckBox"
+                                           title="前N个线程">
+                                    <input type="checkbox" value="nIDTime" name="threadCheckBox"
+                                           lay-filter="threadCheckBox" title="前N个线程间隔显示">
+                                </div>
+                            </div>
+
+                            <div class="layui-form-item">
+                                <div id="threadIDText" class="layui-hide">
+                                    <label style="width: 100px;" class="layui-form-label ">线程ID：</label>
+                                    <div style="width: 70px;" class=" layui-input-inline ">
+                                        <input type="number" name="password" required lay-verify="required"
+                                               placeholder="" autocomplete="off" class="layui-input">
+                                    </div>
+                                    <div class="layui-form-mid layui-word-aux"></div>
+                                </div>
+                                <div id="threadNIDText" class="layui-hide">
+                                    <label style="width: 100px;" class=" layui-form-label ">线程前N个：</label>
+                                    <div style="width: 70px;" class=" layui-input-inline ">
+                                        <input type="number" name="password" required lay-verify="required"
+                                               placeholder="" autocomplete="off" class="layui-input">
+                                    </div>
+                                    <div class="layui-form-mid layui-word-aux"></div>
+                                </div>
+                                <div id="threadNIDTimeText" class="layui-hide">
+                                    <label style="width: 100px;" class=" layui-form-label ">时间间隔：</label>
+                                    <div style="width: 70px;" class=" layui-input-inline ">
+                                        <input type="number" name="password" required lay-verify="required"
+                                               placeholder="" autocomplete="off" class="layui-input">
+                                    </div>
+                                    <div class="layui-form-mid layui-word-aux"></div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+                <!-- Thread 面板 -->
+
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text" style="">
+            <label class="layui-form-label">命令展示区</label>
+            <div class="layui-input-block" style="width: 800px;">
+            <textarea placeholder="" name="commond" id="commond" onkeydown="enter_btn(event.keyCode)"
+                      class="layui-textarea console-textArea-with"></textarea>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="container-fluid px-0">
+    <div class="col px-0" id="terminal-card">
+        <div id="terminal"></div>
+    </div>
+</div>
+
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+    layui.use(['form', 'element', 'layer'], function () {
+        var element = layui.element;
+        var layer = layui.layer;
+
+        //监听折叠
+        element.on('collapse(test)', function (data) {
+            alert(data.show);
+            layer.msg('展开状态：' + data.show);
+        });
+
+        var form = layui.form;
+        /**
+         * threadCheckBox 监听
+         */
+        form.on('checkbox(threadCheckBox)', function (data) {
+            var value = data.value; // value值
+            $("input[name='threadCheckBox']").each(function (index, item) {
+                // 一个选中其他反选
+                if (data.elem.checked && item.value == data.value) {
+                    this.checked = true;
+                    // 执行命令前先清屏
+                    clearConmmond();
+                    if (value == 'all') {
+                        $("#threadIDText").addClass("layui-hide");
+                        $("#threadNIDText").addClass("layui-hide");
+                        $("#threadNIDTimeText").addClass("layui-hide");
+                        sendCommond("thread");
+                    } else if (value == 'block') {
+                        $("#threadIDText").addClass("layui-hide");
+                        $("#threadNIDText").addClass("layui-hide");
+                        $("#threadNIDTimeText").addClass("layui-hide");
+                        sendCommond("thread -b");
+                    } else if (value == 'ID') {
+                        $("#threadIDText").removeClass("layui-hide");
+                        $("#threadNIDText").addClass("layui-hide");
+                        $("#threadNIDTimeText").addClass("layui-hide");
+                    } else if (value == 'nID') {
+                        $("#threadIDText").removeClass("layui-hide");
+                        $("#threadNIDText").removeClass("layui-hide");
+                        $("#threadNIDTimeText").addClass("layui-hide");
+                    } else if (value == 'nIDTime') {
+                        $("#threadIDText").removeClass("layui-hide");
+                        $("#threadNIDText").removeClass("layui-hide");
+                        $("#threadNIDTimeText").removeClass("layui-hide");
+                    }
+                } else {
+                    this.checked = false;
+                }
+            });
+            form.render('checkbox');
+            return false;
+        });
+
+        /**
+         * dashboardCheckBox 监听
+         */
+        form.on('checkbox(dashboardCheckBox)', function (data) {
+            var value = data.value; // value值
+            $("input[name='dashboardCheckBox']").each(function (index, item) {
+                // 一个选中其他反选
+                if (data.elem.checked && item.value == data.value) {
+                    this.checked = true;
+                    clearConmmond();
+                    sendCommond(value);
+                } else {
+                    this.checked = false;
+                }
+            });
+            return false;
+        });
+
+        /**
+         * jvmCheckBox 监听
+         */
+        form.on('checkbox(jvmCheckBox)', function (data) {
+            var value = data.value; // value值
+            $("input[name='jvmCheckBox']").each(function (index, item) {
+                // 一个选中其他反选
+                if (data.elem.checked && item.value == data.value) {
+                    this.checked = true;
+                    clearConmmond();
+                    sendCommond(value);
+                } else {
+                    this.checked = false;
+                }
+            });
+            return false;
+        });
+
+    });
+
+</script>
+</body>
+</html>
