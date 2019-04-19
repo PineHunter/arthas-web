@@ -3,6 +3,8 @@ var xterm;
 var commandThreadStr = "thread  ";
 var classloaderStr = "classloader  ";
 var smStr = "sm  ";
+var watchStr = "watch ";
+var scStr = "sc  ";
 
 $(function () {
     var url = window.location.href;
@@ -230,7 +232,6 @@ function enter_btn(keycode) {
     return;
 }
 
-
 function clearConmmond() {
     $("#commond").val("");
     ws.send(JSON.stringify({action: 'read', data: "cls \r"}))
@@ -249,12 +250,22 @@ function commondsClick(type, commondType) {
         jvm: "jvm",
         dashboard: "dashboard",
         classloader: {tree: " -t", loadclass: " -c 类加载器ID --load 类名全路径"},
-        sm: {methods: " ", methodInfo: " -d "}
+        sm: {methods: " ", methodInfo: " -d "},
+        sysprop: {all: " ", single: "-h"},
+        pwd: "pwd",
+        jad: "jad",
+        cat: "cat",
+        watch: {before:"-b",return:"-s",exception:"-e",end:"-f"},
+        trace: "trace",
+        monitor: "monitor",
+        sc:{classInfo:"-d",prop:"-f"}
+
     };
 
     var Command;
     // 线程
     if (type == 'thread') {
+        addAllLauiHide();
         threadCommand = commandArray.threads[commondType];
         if (commondType == "block" || commondType == "all") {
             $("#thread_ID_Div").addClass("layui-hide");
@@ -271,28 +282,114 @@ function commondsClick(type, commondType) {
 
     // JVM内存
     if (type == 'jvm') {
+        addAllLauiHide();
         Command = commandArray[commondType];
         $("#commond").val(Command);
 
     }
 
+    //sc 查看jvm已加载的类的信息
+    if(type == "sc"){
+    Command = commandArray.sc[commondType]
+        if (commondType == 'classInfo'){
+            addAllLauiHide();
+            $("#jad_clazz_method_div").removeClass("layui-hide");
+            Command = commandArray.sc[commondType];
+
+        } else if (commondType == 'prop'){
+            addAllLauiHide();
+            $("#jad_clazz_method_div").removeClass("layui-hide");
+            Command = commandArray.sc[commondType];
+        }
+        $("#commond").val(scStr+Command);
+
+
+    }
+
     //系统数据面板
     if (type == "dashboard") {
+        addAllLauiHide();
         Command = commandArray[commondType];
         $("#commond").val(Command);
     }
 
     //类加载器
     if (type == "classloader") {
+        addAllLauiHide();
         Command = commandArray.classloader[commondType];
         $("#commond").val(classloaderStr + Command);
     }
 
     //查询类方法信息
     if (type == "sm") {
+        addAllLauiHide();
         Command = commandArray.sm[commondType];
         $("#commond").val(smStr + Command);
     }
+
+    //查看文件
+    if (type == "cat") {
+        addAllLauiHide();
+        Command = commandArray[commondType];
+        $("#commond").val(Command);
+        $("#jad_clazz_method_div").removeClass("layui-hide");
+    }
+
+    //查看当前路径
+    if (type == 'pwd') {
+        addAllLauiHide();
+        Command = commandArray[commondType]
+        $("#commond").val(Command);
+    }
+
+    //反编译文件
+    if (type == 'jad') {
+        addAllLauiHide();
+        $("#jad_clazz_method_div").removeClass("layui-hide");
+        Command = commandArray[commondType]
+        $("#commond").val(Command);
+    }
+
+    //查看方法调用链路
+    if(type == "trace"){
+        addAllLauiHide();
+        $("#jad_clazz_method_div").removeClass("layui-hide");
+        Command = commandArray[commondType]
+        $("#commond").val(Command);
+    }
+
+    //查看方法调用链路
+    if(type == "monitor"){
+        addAllLauiHide();
+        $("#jad_clazz_method_div").removeClass("layui-hide");
+        Command = commandArray[commondType]
+        $("#commond").val(Command);
+    }
+
+    //watch 观察方法
+    if (type == 'watch'){
+        addAllLauiHide();
+        $("#jad_clazz_method_div").removeClass("layui-hide");
+        Command = commandArray.watch[commondType];
+        if (commondType == 'before' ){
+            $("#commond").val(watchStr+Command);
+        }else if(commondType == 'return'){
+            $("#commond").val(watchStr+Command);
+        }else if (commondType == 'exception'){
+            $("#commond").val(watchStr+Command);
+        }else if(commondType == 'end'){
+            $("#commond").val(watchStr+Command);
+        }
+
+    }
+}
+//remove all laui-hide
+
+function addAllLauiHide() {
+    $("#jad_clazz_method_div").addClass("layui-hide");
+    $("#thread_ID_Div").addClass("layui-hide");
+    $("#thread_NID_Div").addClass("layui-hide");
+    $("#sm_class_div").addClass("layui-hide");
 }
 
 function threadIDText() {
@@ -302,3 +399,8 @@ function threadIDText() {
 function threadNIDText() {
     $("#commond").val($("#commond").val() + $("#thread_NID_Text").val());
 }
+
+function jadClazzText() {
+    $("#commond").val($("#commond").val()+"  "+ $("#jad_clazz_method_text").val());
+}
+
