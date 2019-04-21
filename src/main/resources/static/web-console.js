@@ -426,5 +426,6 @@ function threadNIDText() {
 
 function jadClazzText() {
     $("#commond").val($("#commond").val() + "  " + $("#jad_clazz_method_text").val());
+    $("#jad_clazz_method_text").val(" ");
 }
 
