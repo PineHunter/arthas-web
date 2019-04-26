@@ -266,6 +266,13 @@ function commondsClick(type, commondType) {
 
     };
 
+    var commandNoticeArray = {
+        jad: "参数:class-pattern、[E]、[c:]",
+        monitor:"参数:class-pattern、method-pattern、[E]、[c:]",
+        trace:"参数:class-pattern、method-pattern、condition-express、[E]、[n:]、#cost",
+        sc:"参数:[d]、[E]、[f]、[x:]"
+    };
+
 
     var Command;
     // 线程
@@ -301,6 +308,7 @@ function commondsClick(type, commondType) {
 
     //sc 查看jvm已加载的类的信息
     if (type == "sc") {
+        $("#jad_clazz_method_text").prop("placeholder", commandNoticeArray.sc)
         Command = commandArray.sc[commondType]
         if (commondType == 'classInfo') {
             commonModel();
@@ -362,6 +370,7 @@ function commondsClick(type, commondType) {
 
     //反编译文件
     if (type == 'jad') {
+        $("#jad_clazz_method_text").prop("placeholder", commandNoticeArray.jad)
         commonModel();
         Command = commandArray[commondType]
         $("#commond").val(Command);
@@ -370,6 +379,7 @@ function commondsClick(type, commondType) {
 
     //查看方法调用链路
     if (type == "trace") {
+        $("#jad_clazz_method_text").prop("placeholder", commandNoticeArray.trace)
         commonModel();
         Command = commandArray[commondType]
         $("#commond").val(Command);
@@ -377,6 +387,7 @@ function commondsClick(type, commondType) {
 
     //监控方法信息
     if (type == "monitor") {
+        $("#jad_clazz_method_text").prop("placeholder", commandNoticeArray.monitor)
         commonModel();
         Command = commandArray[commondType]
         $("#commond").val(Command);
@@ -434,39 +445,6 @@ function jadClazzText() {
 
 
 
-//点击方法，在输入框显示提示信息
-function showNotice(type) {
-    var commandNoticeArray = {
-        jad: "参数:class-pattern、[E]、[c:]",
-        monitor:"参数:class-pattern、method-pattern、[E]、[c:]",
-        trace:"参数:class-pattern、method-pattern、condition-express、[E]、[n:]、#cost",
-        sc:"参数:[d]、[E]、[f]、[x:]"
-    };
-
-    if (type == 'jad') {
-        //输入框获得焦点显示提示文字
-        $("#jad_clazz_method_text").focus(function () {
-            $(this).attr("placeholder", commandNoticeArray.jad)
-        })
-    }
-
-    if (type == 'monitor'){
-        $("#jad_clazz_method_text").focus(function () {
-            $(this).attr("placeholder", commandNoticeArray.monitor)
-        })
-    }
-
-    if (type == 'trace'){
-        $("#jad_clazz_method_text").focus(function () {
-            $(this).attr("placeholder", commandNoticeArray.trace)
-        })
-    }
 
 
-    if (type == 'sc'){
-        $("#jad_clazz_method_text").focus(function () {
-            $(this).attr("placeholder", commandNoticeArray.sc)
-        })
-    }
-}
 
