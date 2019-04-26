@@ -96,7 +96,7 @@
             <li class="layui-nav-item" value="8">
                 <a href="javascript:;" class="layui-bg-green">方法执行监控</a>
                 <dl class="layui-nav-child">
-                    <dd><a href="javascript:;" onclick="commondsClick('monitor','monitor');">监控法法</a></dd>
+                    <dd><a href="javascript:;" onclick="commondsClick('monitor','monitor');">监控方法</a></dd>
                 </dl>
                 <dl class="layui-nav-child">
                     <dd><a href="javascript:;" onclick="commondsClick('trace','trace');">方法调用链路</a></dd>
@@ -151,6 +151,21 @@
                 <a href="javascript:;" class="layui-bg-green">内存编译</a>
                 <dl class="layui-nav-child">
                     <dd><a href="javascript:;" onclick="commondsClick('mc','mc');">编译java文件</a></dd>
+                </dl>
+            </li>
+            <!--查看系统环境信息-->
+            <li class="layui-nav-item" value="14">
+                <a href="javascript:;" class="layui-bg-green">系统环境信息</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="javascript:;" onclick="commondsClick('sysenv','sysenv');">查看环境信息</a></dd>
+                </dl>
+            </li>
+
+            <!--dump下载？   dump已加载的累到指定目录-->
+            <li class="layui-nav-item" value="14">
+                <a href="javascript:;" class="layui-bg-green">dump</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="javascript:;" onclick="commondsClick('dump','dump');">dump已加载的类</a></dd>
                 </dl>
             </li>
 
@@ -247,7 +262,7 @@
                             <label style="width: 80px;" class=" layui-form-label ">参数：</label>
                             <div style="width: 350px;" class=" layui-input-inline ">
                                 <input type="text" id="jad_clazz_method_text" required lay-verify="required"
-                                       placeholder="单击查看提示命令" autocomplete="off" class="layui-input" onblur="jadClazzText();">
+                                       placeholder="" autocomplete="off" class="layui-input" onblur="jadClazzText();">
                             </div>
                             <div class="layui-form-mid layui-word-aux"></div>
                         </div>

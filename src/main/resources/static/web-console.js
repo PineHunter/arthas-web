@@ -262,15 +262,10 @@ function commondsClick(type, commondType) {
         sc: {classInfo: "-d", prop: "-f"},
         tt: "tt",
         mc: "mc",
-        redefine: {localClass: "", jvmClasses: "jvm"}
+        redefine: {localClass: "", jvmClasses: "jvm"},
+        sysenv:"sysenv",
+        dump:"dump"
 
-    };
-
-    var commandNoticeArray = {
-        jad: "参数:class-pattern、[E]、[c:]",
-        monitor:"参数:class-pattern、method-pattern、[E]、[c:]",
-        trace:"参数:class-pattern、method-pattern、condition-express、[E]、[n:]、#cost",
-        sc:"参数:[d]、[E]、[f]、[x:]"
     };
 
 
@@ -299,6 +294,20 @@ function commondsClick(type, commondType) {
         $("#commond").val(Command);
     }
 
+    if (type == 'dump'){
+        addAllLauiHide();
+        commonModel(type);
+        Command = commandArray[commondType];
+        $("#commond").val(Command);
+    }
+
+    if (type == 'sysenv') {
+        addAllLauiHide();
+        commonModel(type)
+        Command = commandArray[commondType];
+        $("#commond").val(Command);
+    }
+
     // 内存编译器
     if (type == 'mc') {
         Command = commandArray[commondType];
@@ -308,14 +317,13 @@ function commondsClick(type, commondType) {
 
     //sc 查看jvm已加载的类的信息
     if (type == "sc") {
-        $("#jad_clazz_method_text").prop("placeholder", commandNoticeArray.sc)
         Command = commandArray.sc[commondType]
         if (commondType == 'classInfo') {
-            commonModel();
+            commonModel('sc');
             Command = commandArray.sc[commondType];
 
         } else if (commondType == 'prop') {
-            commonModel();
+            commonModel("");
             Command = commandArray.sc[commondType];
         }
         $("#commond").val(scStr + Command);
@@ -333,7 +341,7 @@ function commondsClick(type, commondType) {
     if (type == "redefine") {
         Command = commandArray.redefine[commondType]
         if (commondType == 'localClass') {
-            commonModel();
+            commonModel("");
         } else if (commondType == 'jvmClasses') {
             addAllLauiHide();
         }
@@ -356,7 +364,7 @@ function commondsClick(type, commondType) {
 
     //查看文件
     if (type == "cat") {
-        commonModel();
+        commonModel("");
         Command = commandArray[commondType];
         $("#commond").val(Command);
     }
@@ -370,8 +378,7 @@ function commondsClick(type, commondType) {
 
     //反编译文件
     if (type == 'jad') {
-        $("#jad_clazz_method_text").prop("placeholder", commandNoticeArray.jad)
-        commonModel();
+        commonModel(type);
         Command = commandArray[commondType]
         $("#commond").val(Command);
 
@@ -379,23 +386,22 @@ function commondsClick(type, commondType) {
 
     //查看方法调用链路
     if (type == "trace") {
-        $("#jad_clazz_method_text").prop("placeholder", commandNoticeArray.trace)
-        commonModel();
+
+        commonModel('trace');
         Command = commandArray[commondType]
         $("#commond").val(Command);
     }
 
     //监控方法信息
     if (type == "monitor") {
-        $("#jad_clazz_method_text").prop("placeholder", commandNoticeArray.monitor)
-        commonModel();
+        commonModel('monitor');
         Command = commandArray[commondType]
         $("#commond").val(Command);
     }
 
     //watch 观察方法
     if (type == 'watch') {
-        commonModel()
+        commonModel("")
         Command = commandArray.watch[commondType];
         if (commondType == 'before') {
             $("#commond").val(watchStr + Command);
@@ -424,7 +430,20 @@ function addAllLauiHide() {
     $("#sm_class_div").addClass("layui-hide");
 }
 
-function commonModel() {
+function commonModel(type) {
+    var commandNoticeArray = {
+        jad: "参数:class-pattern、[E]、[c:]",
+        monitor:"参数:class-pattern、method-pattern、[E]、[c:]",
+        trace:"参数:class-pattern、method-pattern、condition-express、[E]、[n:]、#cost",
+        sc:"参数:[d]、[E]、[f]、[x:]",
+        sysenv:"sysenv;查看所有环境信息，sysenv+属性:查看单个",
+        dump:"参数:class-pattern、[c:]、[E]"
+    };
+    if (type == ""){
+        $("#jad_clazz_method_text").prop("placeholder", "请输入命令参数");
+    }
+    $("#jad_clazz_method_text").prop("placeholder", commandNoticeArray[type]);
+
     addAllLauiHide();
     $("#jad_clazz_method_div").removeClass("layui-hide");
 }
@@ -438,8 +457,9 @@ function threadNIDText() {
 }
 
 function jadClazzText() {
-    $("#commond").val($("#commond").val() + "  " + $("#jad_clazz_method_text").val());
-    $("#jad_clazz_method_text").val(" ");
+    $("#commond").val($("#commond").val() + "  " + $("#jad_clazz_method_text").val())
+    $("#jad_clazz_method_text").val("");
+    commonModel("")
 }
 
 
