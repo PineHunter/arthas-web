@@ -36,7 +36,7 @@
 
         <ul class="layui-nav layui-nav-tree" id="navUl">
 
-            <li class="layui-nav-item layui-nav-itemed" value="1" >
+            <li class="layui-nav-item layui-nav-itemed" value="1">
                 <a href="javascript:;" class="layui-bg-green" style="border: white;">系统数据面板</a>
                 <dl class="layui-nav-child">
                     <dd><a href="javascript:;" onclick="commondsClick('dashboard','dashboard');">dashboard</a></dd>
@@ -89,17 +89,17 @@
             <li class="layui-nav-item" value="6">
                 <a href="javascript:;" class="layui-bg-green">反编译</a>
                 <dl class="layui-nav-child">
-                    <dd> <a href="javascript:;" onclick="commondsClick('jad','jad');">反编译文件</a></dd>
+                    <dd><a href="javascript:;" onclick="commondsClick('jad','jad');showNotice('jad');">反编译文件</a></dd>
                 </dl>
             </li>
 
             <li class="layui-nav-item" value="8">
                 <a href="javascript:;" class="layui-bg-green">方法执行监控</a>
                 <dl class="layui-nav-child">
-                    <dd> <a href="javascript:;" onclick="commondsClick('monitor','monitor');">监控法法</a></dd>
+                    <dd><a href="javascript:;" onclick="commondsClick('monitor','monitor');showNotice('monitor')">监控法法</a></dd>
                 </dl>
                 <dl class="layui-nav-child">
-                    <dd> <a href="javascript:;" onclick="commondsClick('trace','trace');">方法调用链路</a></dd>
+                    <dd><a href="javascript:;" onclick="commondsClick('trace','trace');showNotice('trace')">方法调用链路</a></dd>
                 </dl>
             </li>
 
@@ -107,33 +107,33 @@
             <li class="layui-nav-item" value="10">
                 <a href="javascript:;" class="layui-bg-green">方法执行数据观测</a>
                 <dl class="layui-nav-child">
-                    <dd> <a href="javascript:;" onclick="commondsClick('watch','before');">方法调用前观察</a></dd>
+                    <dd><a href="javascript:;" onclick="commondsClick('watch','before');">方法调用前观察</a></dd>
                 </dl>
                 <dl class="layui-nav-child">
-                    <dd> <a href="javascript:;" onclick="commondsClick('watch','return');">方法返回后观察</a></dd>
+                    <dd><a href="javascript:;" onclick="commondsClick('watch','return');">方法返回后观察</a></dd>
                 </dl>
                 <dl class="layui-nav-child">
-                    <dd> <a href="javascript:;" onclick="commondsClick('watch','end');">方法结束后观察</a></dd>
+                    <dd><a href="javascript:;" onclick="commondsClick('watch','end');">方法结束后观察</a></dd>
                 </dl>
                 <dl class="layui-nav-child">
-                    <dd> <a href="javascript:;" onclick="commondsClick('watch','exception');">方法异常后观察</a></dd>
+                    <dd><a href="javascript:;" onclick="commondsClick('watch','exception');">方法异常后观察</a></dd>
                 </dl>
             </li>
 
             <li class="layui-nav-item" value="11">
                 <a href="javascript:;" class="layui-bg-green">JVM已加载类的信息</a>
                 <dl class="layui-nav-child">
-                    <dd> <a href="javascript:;" onclick="commondsClick('sc','classInfo');">输出类的详细信息</a></dd>
+                    <dd><a href="javascript:;" onclick="commondsClick('sc','classInfo');showNotice('sc')">输出类的详细信息</a></dd>
                 </dl>
                 <dl class="layui-nav-child">
-                    <dd> <a href="javascript:;" onclick="commondsClick('sc','prop');">类的成员变量信息</a></dd>
+                    <dd><a href="javascript:;" onclick="commondsClick('sc','prop');showNotice('sc')">类的成员变量信息</a></dd>
                 </dl>
             </li>
 
             <li class="layui-nav-item" value="12">
                 <a href="javascript:;" class="layui-bg-green">日常命令</a>
                 <dl class="layui-nav-child">
-                    <dd> <a href="javascript:;" onclick="commondsClick('pwd','pwd');">当前目录路径</a></dd>
+                    <dd><a href="javascript:;" onclick="commondsClick('pwd','pwd');">当前目录路径</a></dd>
                 </dl>
                 <dl class="layui-nav-child">
                     <dd><a href="javascript:;" onclick="commondsClick('cat','cat');">查看文件</a></dd>
@@ -143,28 +143,26 @@
             <li class="layui-nav-item" value="13">
                 <a href="javascript:;" class="layui-bg-green">tt</a>
                 <dl class="layui-nav-child">
-                    <dd> <a href="javascript:;" onclick="commondsClick('tt','tt');">命令参数解析</a></dd>
+                    <dd><a href="javascript:;" onclick="commondsClick('tt','tt');">命令参数解析</a></dd>
                 </dl>
             </li>
 
             <li class="layui-nav-item" value="14">
                 <a href="javascript:;" class="layui-bg-green">内存编译</a>
                 <dl class="layui-nav-child">
-                    <dd> <a href="javascript:;" onclick="commondsClick('mc','mc');">编译java文件</a></dd>
+                    <dd><a href="javascript:;" onclick="commondsClick('mc','mc');">编译java文件</a></dd>
                 </dl>
             </li>
 
             <li class="layui-nav-item" value="14">
                 <a href="javascript:;" class="layui-bg-green">加载class文件</a>
                 <dl class="layui-nav-child">
-                    <dd> <a href="javascript:;" onclick="commondsClick('redefine','localClass');">从本地加载文件</a></dd>
+                    <dd><a href="javascript:;" onclick="commondsClick('redefine','localClass');">从本地加载文件</a></dd>
                 </dl>
                 <dl class="layui-nav-child">
-                    <dd> <a href="javascript:;" onclick="commondsClick('redefine','jvmClasses');">jvm已加载的类</a></dd>
+                    <dd><a href="javascript:;" onclick="commondsClick('redefine','jvmClasses');">jvm已加载的类</a></dd>
                 </dl>
             </li>
-
-
 
 
         </ul>
@@ -204,7 +202,7 @@
                 <label class="layui-form-label">命令展示区:</label>
                 <div class="layui-input-block ">
 
-                     <textarea  style="min-height: 50px;width: 550px;" name="commond" id="commond" placeholder=""
+                     <textarea style="min-height: 50px;width: 550px;" name="commond" id="commond" placeholder=""
                                onkeydown="enter_btn(event.keyCode)"
                                class="console-textArea-with layui-input-inline"></textarea>
                     <div style="padding-top: 5px;padding-left: 80px;">
@@ -222,7 +220,7 @@
                             <label style="width: 130px;" class=" layui-form-label ">前N个线程：</label>
                             <div style="width: 70px;" class=" layui-input-inline ">
                                 <input type="number" id="thread_NID_Text" required lay-verify="required"
-                                       placeholder="" autocomplete="off" class="layui-input"  onblur="threadNIDText()">
+                                       placeholder="" autocomplete="off" class="layui-input" onblur="threadNIDText()">
                             </div>
                             <div class="layui-form-mid layui-word-aux"></div>
                         </div>
@@ -240,16 +238,16 @@
                             <label style="width: 130px;" class=" layui-form-label ">前N个线程：</label>
                             <div style="width: 70px;" class=" layui-input-inline ">
                                 <input type="number" id="sm_class_method_Text" required lay-verify="required"
-                                       placeholder="" autocomplete="off" class="layui-input"  onblur="threadNIDText()">
+                                       placeholder="" autocomplete="off" class="layui-input" onblur="threadNIDText()">
                             </div>
                             <div class="layui-form-mid layui-word-aux"></div>
                         </div>
 
                         <div id="jad_clazz_method_div" class="layui-input-inline layui-form-pane layui-hide">
-                            <label style="width: 160px;" class=" layui-form-label ">输入对应参数：</label>
-                            <div style="width: 250px;" class=" layui-input-inline ">
+                            <label style="width: 80px;" class=" layui-form-label ">参数：</label>
+                            <div style="width: 350px;" class=" layui-input-inline ">
                                 <input type="text" id="jad_clazz_method_text" required lay-verify="required"
-                                       placeholder="" autocomplete="off" class="layui-input"  onblur="jadClazzText();">
+                                       placeholder="单击查看提示命令" autocomplete="off" class="layui-input" onblur="jadClazzText();">
                             </div>
                             <div class="layui-form-mid layui-word-aux"></div>
                         </div>
@@ -280,7 +278,7 @@
         });
         var form = layui.form;
 
-        form.on("",function () {
+        form.on("", function () {
 
         })
     });

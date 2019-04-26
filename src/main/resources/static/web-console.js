@@ -266,6 +266,7 @@ function commondsClick(type, commondType) {
 
     };
 
+
     var Command;
     // 线程
     if (type == 'thread') {
@@ -364,6 +365,7 @@ function commondsClick(type, commondType) {
         commonModel();
         Command = commandArray[commondType]
         $("#commond").val(Command);
+
     }
 
     //查看方法调用链路
@@ -427,5 +429,44 @@ function threadNIDText() {
 function jadClazzText() {
     $("#commond").val($("#commond").val() + "  " + $("#jad_clazz_method_text").val());
     $("#jad_clazz_method_text").val(" ");
+}
+
+
+
+
+//点击方法，在输入框显示提示信息
+function showNotice(type) {
+    var commandNoticeArray = {
+        jad: "参数:class-pattern、[E]、[c:]",
+        monitor:"参数:class-pattern、method-pattern、[E]、[c:]",
+        trace:"参数:class-pattern、method-pattern、condition-express、[E]、[n:]、#cost",
+        sc:"参数:[d]、[E]、[f]、[x:]"
+    };
+
+    if (type == 'jad') {
+        //输入框获得焦点显示提示文字
+        $("#jad_clazz_method_text").focus(function () {
+            $(this).attr("placeholder", commandNoticeArray.jad)
+        })
+    }
+
+    if (type == 'monitor'){
+        $("#jad_clazz_method_text").focus(function () {
+            $(this).attr("placeholder", commandNoticeArray.monitor)
+        })
+    }
+
+    if (type == 'trace'){
+        $("#jad_clazz_method_text").focus(function () {
+            $(this).attr("placeholder", commandNoticeArray.trace)
+        })
+    }
+
+
+    if (type == 'sc'){
+        $("#jad_clazz_method_text").focus(function () {
+            $(this).attr("placeholder", commandNoticeArray.sc)
+        })
+    }
 }
 
